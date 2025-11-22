@@ -612,6 +612,41 @@ export default function TargetArea(props) {
                                                 {...props}
                                             />
                                         ),
+                                        table: ({ node, ...props }) => (
+                                            <div className='overflow-x-auto my-4'>
+                                                <table
+                                                    className='min-w-full border-collapse border border-default-300'
+                                                    {...props}
+                                                />
+                                            </div>
+                                        ),
+                                        thead: ({ node, ...props }) => (
+                                            <thead
+                                                className='bg-default-100'
+                                                {...props}
+                                            />
+                                        ),
+                                        tbody: ({ node, ...props }) => (
+                                            <tbody {...props} />
+                                        ),
+                                        tr: ({ node, ...props }) => (
+                                            <tr
+                                                className='border-b border-default-200'
+                                                {...props}
+                                            />
+                                        ),
+                                        th: ({ node, ...props }) => (
+                                            <th
+                                                className={`border border-default-300 px-4 py-2 text-left font-bold text-[${appFontSize}px]`}
+                                                {...props}
+                                            />
+                                        ),
+                                        td: ({ node, ...props }) => (
+                                            <td
+                                                className={`border border-default-300 px-4 py-2 text-[${appFontSize}px]`}
+                                                {...props}
+                                            />
+                                        ),
                                     }}
                                 >
                                     {result}
