@@ -24,6 +24,7 @@ export default function Translate() {
     const [dynamicTranslate, setDynamicTranslate] = useConfig('dynamic_translate', false);
     const [deleteNewline, setDeleteNewline] = useConfig('translate_delete_newline', false);
     const [rememberLanguage, setRememberLanguage] = useConfig('translate_remember_language', false);
+    const [markdownRender, setMarkdownRender] = useConfig('translate_markdown_render', false);
     // const [translateFontSize, setTranslateFontSize] = useConfig('translate_font_size', 16);
     const [windowPosition, setWindowPosition] = useConfig('translate_window_position', 'mouse');
     const [rememberWindowSize, setRememberWindowSize] = useConfig('translate_remember_window_size', false);
@@ -207,6 +208,17 @@ export default function Translate() {
                                 isSelected={rememberLanguage}
                                 onValueChange={(v) => {
                                     setRememberLanguage(v);
+                                }}
+                            />
+                        )}
+                    </div>
+                    <div className='config-item'>
+                        <h3 className='my-auto mx-0'>{t('config.translate.markdown_render')}</h3>
+                        {markdownRender !== null && (
+                            <Switch
+                                isSelected={markdownRender}
+                                onValueChange={(v) => {
+                                    setMarkdownRender(v);
                                 }}
                             />
                         )}

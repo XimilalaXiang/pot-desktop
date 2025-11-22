@@ -10,6 +10,7 @@ import {
     DropdownMenu,
     DropdownTrigger,
     Tooltip,
+    Code,
 } from '@nextui-org/react';
 import { BiCollapseVertical, BiExpandVertical } from 'react-icons/bi';
 import { BaseDirectory, readTextFile } from '@tauri-apps/api/fs';
@@ -30,6 +31,7 @@ import { useAtomValue } from 'jotai';
 import { nanoid } from 'nanoid';
 import { useSpring, animated } from '@react-spring/web';
 import useMeasure from 'react-use-measure';
+import ReactMarkdown from 'react-markdown';
 
 import * as builtinCollectionServices from '../../../../services/collection';
 import { sourceLanguageAtom, targetLanguageAtom } from '../LanguageArea';
@@ -65,6 +67,7 @@ export default function TargetArea(props) {
     const [ttsServiceList] = useConfig('tts_service_list', ['lingva_tts']);
     const [translateSecondLanguage] = useConfig('translate_second_language', 'en');
     const [historyDisable] = useConfig('history_disable', false);
+    const [markdownRender] = useConfig('translate_markdown_render', false);
     const [isLoading, setIsLoading] = useState(false);
     const [hide, setHide] = useState(true);
 
@@ -497,12 +500,130 @@ export default function TargetArea(props) {
                     {/* result content */}
                     <CardBody className={`p-[12px] pb-0 ${hide && 'h-0 p-0'}`}>
                         {typeof result === 'string' ? (
-                            <textarea
-                                ref={textAreaRef}
-                                className={`text-[${appFontSize}px] h-0 resize-none bg-transparent select-text outline-none`}
-                                readOnly
-                                value={result}
-                            />
+                            markdownRender ? (
+                                <ReactMarkdown
+                                    className='markdown-body select-text'
+                                    components={{
+                                        code: ({ node, inline, ...props }) => {
+                                            const { children } = props;
+                                            return inline ? (
+                                                <Code size='sm'>{children}</Code>
+                                            ) : (
+                                                <Code
+                                                    size='sm'
+                                                    className='block whitespace-pre-wrap my-2 p-2'
+                                                >
+                                                    {children}
+                                                </Code>
+                                            );
+                                        },
+                                        h1: ({ node, ...props }) => (
+                                            <h1
+                                                className={`text-[${appFontSize + 8}px] font-bold my-2`}
+                                                {...props}
+                                            />
+                                        ),
+                                        h2: ({ node, ...props }) => (
+                                            <h2
+                                                className={`text-[${appFontSize + 6}px] font-bold my-2`}
+                                                {...props}
+                                            />
+                                        ),
+                                        h3: ({ node, ...props }) => (
+                                            <h3
+                                                className={`text-[${appFontSize + 4}px] font-bold my-1`}
+                                                {...props}
+                                            />
+                                        ),
+                                        h4: ({ node, ...props }) => (
+                                            <h4
+                                                className={`text-[${appFontSize + 2}px] font-bold my-1`}
+                                                {...props}
+                                            />
+                                        ),
+                                        h5: ({ node, ...props }) => (
+                                            <h5
+                                                className={`text-[${appFontSize}px] font-bold my-1`}
+                                                {...props}
+                                            />
+                                        ),
+                                        h6: ({ node, ...props }) => (
+                                            <h6
+                                                className={`text-[${appFontSize}px] font-bold my-1`}
+                                                {...props}
+                                            />
+                                        ),
+                                        p: ({ node, ...props }) => (
+                                            <p
+                                                className={`text-[${appFontSize}px] mb-2`}
+                                                {...props}
+                                            />
+                                        ),
+                                        li: ({ node, ...props }) => {
+                                            const { children } = props;
+                                            return (
+                                                <li
+                                                    className={`list-disc list-inside text-[${appFontSize}px]`}
+                                                    children={children}
+                                                />
+                                            );
+                                        },
+                                        ul: ({ node, ...props }) => (
+                                            <ul
+                                                className='mb-2 ml-4'
+                                                {...props}
+                                            />
+                                        ),
+                                        ol: ({ node, ...props }) => (
+                                            <ol
+                                                className='list-decimal list-inside mb-2 ml-4'
+                                                {...props}
+                                            />
+                                        ),
+                                        blockquote: ({ node, ...props }) => (
+                                            <blockquote
+                                                className='border-l-4 border-default-300 pl-4 my-2 text-default-600'
+                                                {...props}
+                                            />
+                                        ),
+                                        a: ({ node, ...props }) => (
+                                            <a
+                                                className='text-primary underline'
+                                                target='_blank'
+                                                rel='noopener noreferrer'
+                                                {...props}
+                                            />
+                                        ),
+                                        strong: ({ node, ...props }) => (
+                                            <strong
+                                                className='font-bold'
+                                                {...props}
+                                            />
+                                        ),
+                                        em: ({ node, ...props }) => (
+                                            <em
+                                                className='italic'
+                                                {...props}
+                                            />
+                                        ),
+                                        hr: ({ node, ...props }) => (
+                                            <hr
+                                                className='my-4 border-default-200'
+                                                {...props}
+                                            />
+                                        ),
+                                    }}
+                                >
+                                    {result}
+                                </ReactMarkdown>
+                            ) : (
+                                <textarea
+                                    ref={textAreaRef}
+                                    className={`text-[${appFontSize}px] h-0 resize-none bg-transparent select-text outline-none`}
+                                    readOnly
+                                    value={result}
+                                />
+                            )
                         ) : (
                             <div>
                                 {result['pronunciations'] &&
