@@ -107,6 +107,7 @@
                 "dynamic_translate": "Dynamic Translation",
                 "delete_newline": "Delete Newline",
                 "remember_language": "Remember Target Language",
+                "markdown_render": "Markdown Rendering",
                 "font_size": {
                     "title": "Font Size",
                     "10": "Very Very Small (10px)",
