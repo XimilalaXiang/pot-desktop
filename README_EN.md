@@ -71,6 +71,7 @@
 -   [x] Support Windows, macOS and Linux
 -   [x] Support Wayland (Tested on KDE, Gnome and Hyprland)
 -   [x] Multi-language support
+-   [x] Markdown Preview for Translation Results (supports code highlighting, tables, lists, and rich text rendering)
 
 <div align="center">
 

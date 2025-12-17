@@ -71,6 +71,7 @@
 -   [x] 支持所有 PC 平台 (Windows, macOS, Linux)
 -   [x] 支持 Wayland (在 KDE、Gnome 以及 Hyprland 上测试)
 -   [x] 多语言支持
+-   [x] 翻译内容 Markdown 预览 (支持代码高亮、表格、列表等富文本渲染)
 
 <div align="center">
 
